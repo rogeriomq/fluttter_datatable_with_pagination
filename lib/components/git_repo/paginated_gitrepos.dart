@@ -13,7 +13,6 @@ class _GitReposTablePaginatedState extends State<GitReposTablePaginated> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('#####');
     return PaginatedDataTable(
       source: GitReposDataSource(),
       header: const Text('Rogério\'s Repositories'),

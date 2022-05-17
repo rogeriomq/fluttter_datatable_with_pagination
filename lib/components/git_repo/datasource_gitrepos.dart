@@ -1,40 +1,30 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_database_with_pagination/models/repo.dart';
+
+import '../../services/api_git_services.dart';
 
 class GitReposDataSource extends DataTableSource {
-  static String _fakeDescription(int index) {
-    String txt = 'Description of the index:[$index] repo.';
-    if (index % 2 == 0) {
-      return '$txt + sdfsdfsdf sdfsd fdsf dsfds fdsf dsf dsfds fds fdsf dsf dsf ';
-    }
-    return txt;
-  }
+  late final List<Repo> _data = [];
 
-  final List<Map<String, dynamic>> _data = List.generate(
-      200,
-      (index) => {
-            "id": index,
-            "name": "Item $index",
-            "description": _fakeDescription(index)
-          });
+  GitReposDataSource() {
+    fetchGitReposByUser(username: 'rogeriomq').then((value) {
+      _data.clear();
+      _data.addAll(value);
+      notifyListeners();
+    }).catchError((error) {
+      debugPrint(error.toString());
+    });
+  }
 
   @override
   DataRow? getRow(int index) {
     if (index < _data.length) {
-      debugPrint('index: $index');
       return DataRow.byIndex(
         index: index,
         cells: [
-          DataCell(
-            Text(
-              _data[index]['id'].toString(),
-              style: TextStyle(
-                  color: Colors.blue[500], backgroundColor: Colors.black87),
-            ),
-          ),
-          DataCell(Text(_data[index]['name'].toString())),
-          DataCell(Text(_data[index]['description'].toString())),
+          DataCell(Text(_data[index].id.toString())),
+          DataCell(Text(_data[index].name)),
+          DataCell(Text(_data[index].description)),
         ],
       );
     }
@@ -42,7 +32,7 @@ class GitReposDataSource extends DataTableSource {
   }
 
   @override
-  bool get isRowCountApproximate => true;
+  bool get isRowCountApproximate => false;
 
   @override
   int get rowCount => _data.length;

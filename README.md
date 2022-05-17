@@ -1,4 +1,4 @@
-# flutter_database_with_pagination
+# flutter_datatable_with_pagination
 
 A new Flutter project.
 

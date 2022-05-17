@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/git_repo/paginated_repos.dart';
+import '../components/git_repo/paginated_gitrepos.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
